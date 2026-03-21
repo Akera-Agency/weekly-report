@@ -1,0 +1,47 @@
+{
+  "projectOrder": [
+    "The Key",
+    "Miqyas Al Dhad",
+    "MHP Pros",
+    "OpenClaw Onboard",
+    "Manarway",
+    "Munitron",
+    "Alifbee Exams"
+  ],
+  "jarvisMapping": {
+    "The Key": "The Key",
+    "Miqyas Al Dhad": "Miqyas Al Dhad",
+    "MHP Pros": "MHP Pros",
+    "OpenClaw Onboard": "OpenClaw Onboard",
+    "Manarway": "Manarway",
+    "Munitron": "Munitron",
+    "Alifbee Exams": "Alifbee Exams"
+  },
+  "githubRepos": {
+    "The Key": "https://github.com/Thekey-sa/moodle-monorepo",
+    "Miqyas Al Dhad": "https://github.com/Akera-Agency/alif-iomad",
+    "MHP Pros": "https://github.com/Akera-Agency/mhp-pros-lms",
+    "OpenClaw Onboard": "https://github.com/Akera-Agency/akera-claw-onboard",
+    "Manarway": "https://github.com/Akera-Agency/manarway",
+    "Munitron": "https://github.com/Akera-Agency/munitron",
+    "Alifbee Exams": "https://github.com/Akera-Agency/AlifBee"
+  },
+  "fathomSearchTerms": {
+    "The Key": "key",
+    "Miqyas Al Dhad": "miqyas",
+    "MHP Pros": "MHP",
+    "OpenClaw Onboard": "openclaw",
+    "Manarway": "manarway",
+    "Munitron": "munitron",
+    "Alifbee Exams": "alifbee"
+  },
+  "clients": {
+    "The Key": "Abdulrahman Albeiroti & Asem Alhomaidi",
+    "Miqyas Al Dhad": "Amro Mohamed",
+    "MHP Pros": "Michael Pansolini",
+    "OpenClaw Onboard": "Michael Pansolini",
+    "Manarway": "Riadh Al Zubaidi",
+    "Munitron": "Riadh Al Zubaidi",
+    "Alifbee Exams": "Yasin Corbaci"
+  }
+}
