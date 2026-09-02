@@ -1,155 +1,208 @@
 ---
-name: internal-weekly-plan
-description: Build internal weekly plan documents project-by-project with auto-drafting from GitHub, Fathom, and ClickUp. Pulls team members from internal Jarvis API.
-version: 1.0.0
+name: weekly-report
+description: Build client-facing weekly product reports for one project at a time, auto-drafting from GitHub (merged PRs in a date window) and ClickUp (tasks by status). Publishes to the ClickUp Weekly Reports list. No team members, no internal task splits.
+version: 2.0.0
 ---
 
-# Internal Weekly Plan Builder
+# Weekly Report Builder
 
-Build Akera's weekly plan documents conversationally, project-by-project.
+Build Akera's **client-facing** weekly product reports, one project per report.
+
+This is a client deliverable, not an internal ops plan. It tells the client what
+shipped, what's in progress, and what's coming next in a specific time window.
+**Never** include team member names, task assignments, or internal work splits.
 
 ## Quick Start
 
 ```bash
-# Start a new weekly plan
-internal-weekly-plan start "Mar 19 → Mar 28"
+# Start a report for one project + date window
+weekly-report start "The Key" "W03 APR 2026" --from 2026-04-13 --to 2026-04-19
 
-# Work on a specific project
-internal-weekly-plan project "The Key"
+# Auto-draft all sections from GitHub + ClickUp (+ Fathom if available)
+weekly-report draft
 
-# Move to next project
-internal-weekly-plan next
+# Review the draft
+weekly-report show
 
-# Generate final document
-internal-weekly-plan finalize
+# Tweak a section
+weekly-report edit overview
+
+# Add manual meetings (Meetings are manual for now)
+weekly-report meeting "Monday, April 20 @ 4:30 PM – The Key Standup" "Weekly plan alignment and release review."
+
+# Publish to ClickUp Weekly Reports list, status "live"
+weekly-report finalize
 ```
 
 ## Workflow
 
-1. **Start** — Initialize plan with date range
-2. **Project** — For each project:
-   - Auto-pull data from GitHub, Fathom, ClickUp (last week's data informs this week's plan)
-   - Get team members (from Jarvis, filter out leads)
-   - **AUTO-DRAFT everything** — URGENT, HEADS-UP, engineering split based on gathered data
-   - User tweaks only what needs changing
-3. **Next** — Move to next project in template order
-4. **Ops Tasks** — After all projects done, draft a list of Ops Tasks identified during planning (blockers, design tasks, prep work). User approves before tickets are created.
-5. **Finalize** — Generate final markdown, upload to ClickUp ticket, create approved Ops Tasks
+1. **Start** — Pick one project and a date window (`--from`/`--to`, ISO dates).
+2. **Draft** — Auto-pull data and draft every section:
+   - **GitHub:** merged PRs where `merged:<from>..<to>`. Count them, cluster by
+     title/theme, and build the delivery + improvements narrative.
+   - **ClickUp:** tasks in the project space, bucketed by status:
+     - `done` / `closed` in window → Recent Delivery Highlights
+     - `in progress` → In-Progress Features
+     - `review` / `testing` → Expected Deliveries This Week
+   - **Fathom (optional):** call transcripts matching the project → Overview
+     context. Do NOT auto-fill Meetings from Fathom yet (manual for now).
+3. **Review & edit** — User tweaks any section. Don't ask section-by-section;
+   draft it all, user corrects.
+4. **Meetings** — User adds meetings manually (`weekly-report meeting`).
+5. **Finalize** — Generate final markdown, create a task in the Weekly Reports
+   list, set status to `live`, return the task URL.
 
-**Key rule:** Don't ask for every section — draft it based on context, user corrects as needed.
+**Key rule:** Auto-draft everything from data first. The user edits, never fills
+from scratch.
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `internal-weekly-plan start "<date range>"` | Initialize new plan |
-| `internal-weekly-plan project "<name>"` | Focus on a project, auto-draft |
-| `internal-weekly-plan team` | Show team members for current project |
-| `internal-weekly-plan assign "<person>" "<task>" [blockers]` | Add engineering task assignment |
-| `internal-weekly-plan urgent "<item>"` | Add to URGENT section |
-| `internal-weekly-plan headsup "<feature>" [design\|eng]` | Add to HEADS-UP table |
-| `internal-weekly-plan note "<text>"` | Add to NOTES/CONTEXT |
-| `internal-weekly-plan demo "<item>" "<when>"` | Add demo recommendation |
-| `internal-weekly-plan blocker "<item>"` | Add to blockers section |
-| `internal-weekly-plan design` | Enable design section for current project |
-| `internal-weekly-plan show` | Show current project draft |
-| `internal-weekly-plan next` | Move to next project |
-| `internal-weekly-plan status` | Show progress (which projects done) |
-| `internal-weekly-plan opstasks` | Draft Ops Tasks identified during planning |
-| `internal-weekly-plan finalize` | Generate final doc, ask for ClickUp link |
+| `weekly-report start "<Project>" "<Label>" --from <ISO> --to <ISO>` | Initialize a report |
+| `weekly-report draft` | Auto-pull GitHub + ClickUp (+Fathom), draft all sections |
+| `weekly-report show` | Show the current draft |
+| `weekly-report edit <section>` | Edit a section (`overview`, `highlights`, `improvements`, `inprogress`, `expected`, `meetings`) |
+| `weekly-report meeting "<title>" "<purpose>"` | Add a meeting (manual) |
+| `weekly-report status` | Show what data was pulled and which sections are drafted |
+| `weekly-report finalize` | Publish to Weekly Reports list, status `live`, return URL |
+
+## Report Sections (in order)
+
+1. **Overview** — 2-3 short paragraphs. What the week centered on. Compare to the
+   prior week when possible.
+2. **Recent Delivery Highlights** — Themed groups of shipped work. Per group:
+   what users can now do, why it matters, linked ClickUp tickets.
+3. **Key Improvements** — Enhancements + fixes, grouped by theme. Always include
+   an **Infrastructure and release hygiene** group with the merged-PR count line
+   and the GitHub PR-query link.
+4. **In-Progress Features** — Per feature: Status, Current focus, Current ticket,
+   Next milestone.
+5. **Expected Deliveries This Week** — Per theme: Expected state, Current status
+   (in code review / testing), ticket links.
+6. **Meetings This Week** *(optional, manual)* — Per meeting: title with day/time,
+   one-line purpose.
 
 ## Data Sources
 
-For each project, the skill pulls:
+| Source | What | Used for |
+|--------|------|----------|
+| **GitHub** | Merged PRs in `merged:<from>..<to>` | Highlights, improvements, "N merged PRs" line + link |
+| **ClickUp** | Tasks by status in project space | Ticket links, in-progress + expected sections |
+| **Fathom** | Calls matching project name | Overview narrative (optional) |
 
-| Source | What |
-|--------|------|
-| **Jarvis** | Team members (developers, designers) |
-| **GitHub** | Commits & PRs from the week (by repo URL) |
-| **Fathom** | Calls matching project name |
-| **ClickUp** | Tickets, action items in project space |
+**No Jarvis. No team members. No task-split tables.**
+
+### GitHub — merged PRs in window
+
+```bash
+# Count + list merged PRs (repo from config githubRepo)
+gh pr list --repo Thekey-sa/moodle-monorepo --state merged \
+  --search "merged:2026-04-13..2026-04-19" --limit 200 \
+  --json number,title,url
+```
+
+The client-facing PR-query link for the "release hygiene" bullet:
+```
+https://github.com/<owner>/<repo>/pulls?q=is%3Apr+is%3Amerged+merged%3A<from>..<to>
+```
+
+### ClickUp — tasks by status
+
+```bash
+# Tasks in the project's space, then bucket by status
+curl -s "https://api.clickup.com/api/v2/team/<team_id>/task?space_ids[]=<space_id>&subtasks=true" \
+  -H "Authorization: $CLICKUP_TOKEN"
+```
+
+Read a specific task's markdown for reference:
+```bash
+curl -s "https://api.clickup.com/api/v2/task/<task_id>?include_markdown_description=true" \
+  -H "Authorization: $CLICKUP_TOKEN" | jq -r '.markdown_description'
+```
 
 ## Working File
 
-As you build the plan, append each project to a working file to preserve context:
+Append the report to a working file as you build it, so context is preserved:
 ```
-reports/internal-weekly-plan-[date-range].md
+reports/weekly-report-<project-slug>-<label-slug>.md
 ```
-
-Example: `reports/internal-weekly-plan-mar22-28.md`
-
-This file accumulates all project sections. If context fills up, resume from this file.
+Example: `reports/weekly-report-the-key-w03-apr-2026.md`
 
 ## State File
 
-Progress is saved to `memory/weekly-plan-state.json`:
+Progress is saved to `memory/weekly-report-state.json`:
 
 ```json
 {
-  "week": "Mar 19 → Mar 28",
-  "currentProject": "The Key",
-  "projectOrder": ["The Key", "Alifbee Exams", ...],
-  "projects": {
-    "The Key": {
-      "status": "in_progress",
-      "includeDesign": false,
-      "urgent": ["AWS DNS switch needs to happen"],
-      "headsup": [{"feature": "Gamification", "design": false, "eng": true}],
-      "engineering": {
-        "scope": ["Gamification", "AI Copilot"],
-        "split": [{"name": "Ramez", "tasks": "AWS migration", "blockers": "None"}],
-        "demos": ["Interval scheduling ready by Wednesday"],
-        "blockers": ["Notification hub docs"]
-      },
-      "design": null,
-      "notes": []
-    }
+  "project": "The Key",
+  "label": "W03 APR 2026",
+  "from": "2026-04-13",
+  "to": "2026-04-19",
+  "githubRepo": "https://github.com/Thekey-sa/moodle-monorepo",
+  "clickupSpaceId": "90125411087",
+  "data": {
+    "mergedPrCount": 37,
+    "prQueryUrl": "https://github.com/Thekey-sa/moodle-monorepo/pulls?q=is%3Apr+is%3Amerged+merged%3A2026-04-13..2026-04-19",
+    "done": [{"id": "869cuxu59", "name": "...", "url": "..."}],
+    "inProgress": [],
+    "review": []
   },
-  "opsTasksDraft": [
-    {"task": "Certificate design for Alifbee", "project": "Alifbee Exams", "blocker_for": "Download unit certificate feature"},
-    {"task": "Review landing page copy", "project": "MHP Pros", "blocker_for": null}
-  ]
+  "sections": {
+    "overview": "...",
+    "highlights": [],
+    "improvements": [],
+    "inProgress": [],
+    "expected": [],
+    "meetings": []
+  },
+  "published": {"taskId": null, "url": null}
 }
 ```
 
-## Project Order (from template)
-
-1. The Key
-2. Miqyas Al Dhad
-3. MHP Pros
-4. OpenClaw Onboard
-5. Manarway
-6. Munitron
-7. Alifbee Exams
-
 ## Markdown Format
 
-**CRITICAL:** Follow the exact format in `references/format-reference.md`
+**CRITICAL:** Follow the exact format in `references/format-reference.md`, and use
+`references/example-report.md` as a full worked example (real The Key report).
 
 Key rules:
-- Standard markdown: `#` headers, `---` rules, `-` bullets
-- Tables for: metadata, quick links, HEADS-UP, work splits
-- `*(Owned by Head of Engineering)*` for ownership
-- `**Purpose:**` for section intros
+- Bold section headers: `# **Overview**`, `# **Recent Delivery Highlights**`, etc.
+- `### **Themed group name**` for subsections
+- `* * *` horizontal rules between top-level sections
+- Link ClickUp tickets inline: `[<ticket title>](https://app.clickup.com/t/<id>)`
+- Keep it client-readable: outcomes and value, not internal jargon or names
 
-When extracting from ClickUp for reference:
-```bash
-curl -s "https://api.clickup.com/api/v2/task/TASK_ID?include_markdown_description=true" \
-  -H "Authorization: $API_KEY" | jq -r '.markdown_description'
-```
+## Publishing to ClickUp
+
+After the user approves the draft:
+
+1. Create a task in the Weekly Reports list (`config → clickup.weeklyReportsListId`
+   = `901215259440`):
+   ```bash
+   curl -s -X POST "https://api.clickup.com/api/v2/list/901215259440/task" \
+     -H "Authorization: $CLICKUP_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d '{"name": "THEKEY - W03 APR 2026 Weekly Report", "markdown_content": "<report md>", "status": "live"}'
+   ```
+2. Set status to `live` (`config → clickup.publishStatus`).
+3. Return the created task URL to the user.
+
+**Naming convention:** `<PROJECT SHORT> - <LABEL> Weekly Report`
+(e.g. `THEKEY - W03 APR 2026 Weekly Report`).
 
 ## Integration Notes
 
-- **Team from Jarvis**: `GET /api/projects` returns `team_members` array with first_name, last_name, role
-- **Filter out leads**: Don't show Product Lead, Executive Director, Design Lead, Tech Lead in team lists (Aziz, Ramez, Tracy, Rayen)
-- **GitHub repos**: Stored in project's `github_repository_url` field
-- **ClickUp spaces**: Project has `clickup_space_id`, `clickup_tickets_list_id`, etc.
-- **Design section**: Only included when Aziz explicitly says design is needed
+- **GitHub repos**: from `config/projects.json → projects[].githubRepo`.
+- **ClickUp spaces**: from `projects[].clickupSpaceId`. Fill these in as you learn
+  them (only The Key is known so far: `90125411087`).
+- **Fathom**: optional context only. Meetings are manual until a better source
+  exists.
+- **Credentials**: `CLICKUP_TOKEN` and GitHub auth come from the agent
+  environment / 1Password — never commit them.
 
-## Ops Tasks Workflow
+## What This Skill Does NOT Do
 
-After all projects are done:
-1. Draft list of Ops Tasks identified (blockers, design work, prep tasks)
-2. Show to Aziz for approval
-3. Create tickets in Ops Tasks list (ID: `901214308228`) with format `[PROJECTNAME] Task title`
-4. Assign to Aziz and set status to "now"
+- No team member lists (Jarvis removed).
+- No engineering/design work-split tables.
+- No internal blockers or ops-task ticket creation.
+- No multi-project documents — **one project per report**.
