@@ -1,133 +1,116 @@
-# Weekly Plan Reference Format
+# Weekly Report Reference Format
 
-This is the EXACT markdown format Aziz uses for weekly plans. Follow this structure precisely.
+This is the EXACT markdown format Akera uses for **client-facing** weekly product
+reports. It is anchored to the current live house style (The Key, APR 2026
+editions in the ClickUp Weekly Reports list). Follow this structure precisely.
+
+See `example-report.md` for a full worked example.
 
 ## Key Formatting Rules
 
-- Standard markdown headers: `#`, `##`, `###`, `####`
-- Horizontal rules: `---`
-- Bullet points: `-`
-- Tables: Standard markdown tables for metadata, quick links, HEADS-UP, and work splits
-- Italics for ownership notes: `*(Owned by Head of Engineering)*`
-- Bold for emphasis: `**Purpose:**`
+- Bold top-level headers: `# **Overview**`, `# **Recent Delivery Highlights**`
+- Bold subsection headers: `### **Themed group name**`
+- Horizontal rules between top-level sections: `* * *`
+- Bullet points: `-` or `*`
+- Link ClickUp tickets inline: `[<ticket title>](https://app.clickup.com/t/<id>)`
+- Client-readable: describe outcomes and value; no internal names or task splits
 
 ## Template Structure
 
 ```markdown
-# [OPS{Weekly Plan}] [Date Range] Plan Direction
+# **<Project> – <Label> Weekly Update**
 
-## [Date Range] — Direction & Early Signals
+# **Overview**
 
----
+<Paragraph 1: what this week centered on — the dominant theme and execution pattern.>
 
-## 000 — Report Metadata
+<Paragraph 2: how it compares to the prior week; the shift in focus.>
 
-| Field | Value |
-|-------|-------|
-| **Owner** | Mohamed Aziz Hadj Hassen |
-| **Week** | [Start Date] → [End Date] |
+* * *
 
----
+# **Recent Delivery Highlights**
 
-## Client: [Client Name]
+### **<Themed feature group>**
 
-### Project: [Project Name]
+<One-line framing of the release stream.>
 
-#### 🔗 Project Quick Links
+*   **What users can now do more reliably:**
+    *   <capability 1>
+    *   <capability 2>
+*   **Why this matters:** <value statement>
 
-| Resource | Link |
-|----------|------|
-| 📁 Documentation Folder | — |
-| 🎫 Project Tickets | — |
-| 💻 GitHub Repository | [URL or —] |
-| 🎨 Figma Project | — |
+*   [<Ticket title>](https://app.clickup.com/t/<id>)
+*   [<Ticket title>](https://app.clickup.com/t/<id>)
 
-### 1️⃣ OPS DIRECTION
+* * *
 
-#### URGENT — Action Required This Week
+# **Key Improvements**
 
-Concrete priorities that must move forward this week.
+### **<Theme, e.g. Gradebook and attempt-flow correctness>**
 
-- [Item 1]
-- [Item 2]
+*   [<Ticket title>](https://app.clickup.com/t/<id>)
+*   [<Ticket title>](https://app.clickup.com/t/<id>)
 
-#### HEADS-UP — Upcoming Feature Work (Design / Engineering)
+### **Infrastructure and release hygiene**
 
-| Feature / Area Name | Design | Engineering |
-|---------------------|--------|-------------|
-| [Feature] | [✓ or blank] | [✓ or blank] |
+*   [Merged backend/infrastructure stream in GitHub (<N> merged PRs this week)](https://github.com/<owner>/<repo>/pulls?q=is%3Apr+is%3Amerged+merged%3A<from>..<to>)
+*   <One line on CI / migration / backend risk reduction.>
 
-#### NOTES / CONTEXT
+* * *
 
-- [Context item]
+# **In-Progress Features**
 
-### 2️⃣ PRODUCT DESIGN PLAN (if needed)
+### **<Feature name>**
 
-*(Owned by Head of Design)*
+*   **Status:** In Progress
+*   **Current focus:** <what is being worked on>
+*   **Current ticket:** [<Ticket title>](https://app.clickup.com/t/<id>)
+*   **Next milestone:** <what completes this>
 
-**Purpose:** Translate the Ops Direction into design intent, scope, and delivery expectations for the week.
+* * *
 
-#### 2.1 — Design Work Scope (High-Level)
+# **Expected Deliveries This Week**
 
-- [Design work item]
+### **<Theme>**
 
-#### 2.2 — Design Work Split
+*   **Expected state:** <what will be true when delivered>
+*   **Current status:** in code review | in testing | mixed review/testing
+*   **Primary ticket:** [<Ticket title>](https://app.clickup.com/t/<id>)
 
-| Product Designer Name | Tasks | Potential Blockers |
-|-----------------------|-------|-------------------|
-| [Name] | [Tasks] | [Blockers or None] |
+* * *
 
-#### 2.3 — Design Demo Recommendations
+## **Meetings This Week**
 
-- [Demo item] → [When ready]
+### **<Day, Date @ Time – Call name>**
 
-#### 2.4 — High-Level Design Blockers & Needs
-
-- [Blocker]
-
-#### 2.5 — Additional Design Notes
-
-None
-
-### 3️⃣ PRODUCT ENGINEERING PLAN
-
-*(Owned by Head of Engineering)*
-
-**Purpose:** Convert direction and design into engineering execution clarity.
-
-#### 3.1 — Engineering Work Scope (High-Level)
-
-- [Engineering work item]
-
-#### 3.2 — Engineering Work Split
-
-| Product Engineer Name | Tasks | Potential Blockers |
-|-----------------------|-------|-------------------|
-| [Name] | [Tasks] | [Blockers or None] |
-
-#### 3.3 — Engineering Demo Recommendations
-
-- [Demo item] → [When ready]
-
-#### 3.4 — High-Level Engineering Blockers & Needs
-
-- [Blocker]
-
-#### 3.5 — Additional Engineering Notes
-
-[Notes or None]
-
----
-
-[Repeat for each project]
+<One-line purpose.>
 ```
+
+## Section Guidance
+
+| Section | Source | Notes |
+|---------|--------|-------|
+| Overview | Week themes (+ Fathom) | 2-3 short paragraphs, compare to prior week |
+| Recent Delivery Highlights | `done` tickets + merged PRs | Group by theme, lead with user value |
+| Key Improvements | enhancements/fixes + PR count | Always end with "Infrastructure and release hygiene" |
+| In-Progress Features | `in progress` tickets | Status / focus / ticket / next milestone |
+| Expected Deliveries | `review` / `testing` tickets | State + current status + ticket |
+| Meetings This Week | Manual | Optional; manual entry for now |
 
 ## ClickUp API Notes
 
-When extracting markdown from ClickUp:
+Read a task's markdown for reference:
 ```bash
-curl -s "https://api.clickup.com/api/v2/task/TASK_ID?include_markdown_description=true" \
-  -H "Authorization: API_KEY" | jq -r '.markdown_description'
+curl -s "https://api.clickup.com/api/v2/task/<task_id>?include_markdown_description=true" \
+  -H "Authorization: $CLICKUP_TOKEN" | jq -r '.markdown_description'
 ```
 
-The `.description` field returns plain text (stripped). Use `.markdown_description` for raw markdown.
+Publish a report to the Weekly Reports list (status `live`):
+```bash
+curl -s -X POST "https://api.clickup.com/api/v2/list/901215259440/task" \
+  -H "Authorization: $CLICKUP_TOKEN" -H "Content-Type: application/json" \
+  -d '{"name":"THEKEY - W03 APR 2026 Weekly Report","markdown_content":"...","status":"live"}'
+```
+
+- Use `markdown_content` when creating (renders markdown in ClickUp).
+- `.markdown_description` returns raw markdown when reading; `.description` is stripped plain text.

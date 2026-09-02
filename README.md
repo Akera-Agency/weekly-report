@@ -1,43 +1,54 @@
-# Internal Weekly Plan Builder
+# Weekly Report Builder
 
-An AI agent skill for building structured weekly plan documents project-by-project, with auto-drafting from GitHub, Fathom, and ClickUp data.
+An AI agent skill for building **client-facing** weekly product reports, one
+project at a time, with auto-drafting from GitHub (merged PRs in a date window)
+and ClickUp (tasks by status).
+
+This is a client deliverable — it tells the client what shipped, what's in
+progress, and what's coming next. It is **not** an internal ops plan: no team
+members, no task splits, no blockers.
 
 ## What It Does
 
-- **Conversational workflow** — Build plans project-by-project with AI drafting
-- **Auto-pulls data** — Fetches from GitHub (commits/PRs), Fathom (call transcripts), ClickUp (tickets), Jarvis (team members)
-- **Ops Tasks tracking** — Identifies blockers and creates ClickUp tickets
-- **Consistent formatting** — Follows exact markdown structure for ClickUp
+- **One project per report** — Focused, client-readable weekly updates
+- **Auto-pulls data** — GitHub (merged PRs in the window), ClickUp (tasks by
+  status), Fathom (optional call context)
+- **Matched house style** — Follows the exact format already live in ClickUp's
+  Weekly Reports list
+- **Publishes to ClickUp** — Creates the report in the Weekly Reports list with
+  status `live`
 
 ## Installation
 
 ### For Clawdbot
 
 ```bash
-# Copy to your skills directory
-cp -r internal-weekly-plan ~/.clawdbot/skills/
-
-# Or symlink
-ln -s /path/to/internal-weekly-plan ~/.clawdbot/skills/internal-weekly-plan
+cp -r weekly-report ~/.clawdbot/skills/
+# or symlink
+ln -s /path/to/weekly-report ~/.clawdbot/skills/weekly-report
 ```
 
 ### For Claude Code / Other Agents
 
-Copy the `SKILL.md` and `references/` folder to your agent's skill directory.
+Copy `SKILL.md` and the `references/` folder to your agent's skill directory.
 
 ## Configuration
 
-Edit `config/projects.json` to set your projects and their data sources:
+Edit `config/projects.json`:
 
 ```json
 {
+  "clickup": {
+    "weeklyReportsListId": "901215259440",
+    "publishStatus": "live"
+  },
   "projects": [
     {
-      "name": "Project Name",
-      "client": "Client Name",
-      "github_url": "https://github.com/org/repo",
-      "clickup_space_id": "...",
-      "fathom_search": "project name"
+      "name": "The Key",
+      "client": "Abdulrahman Albeiroti & Asem Alhomaidi",
+      "githubRepo": "https://github.com/Thekey-sa/moodle-monorepo",
+      "clickupSpaceId": "90125411087",
+      "fathomSearch": "key"
     }
   ]
 }
@@ -46,38 +57,39 @@ Edit `config/projects.json` to set your projects and their data sources:
 ## Usage
 
 ```
-# Start a new weekly plan
-internal-weekly-plan start "Mar 22 → Mar 28"
+# Start a report for one project + date window
+weekly-report start "The Key" "W03 APR 2026" --from 2026-04-13 --to 2026-04-19
 
-# Work on a project (auto-drafts from data)
-internal-weekly-plan project "The Key"
+# Auto-draft all sections from GitHub + ClickUp
+weekly-report draft
 
-# Tweak as needed, then move on
-internal-weekly-plan next
+# Review and tweak
+weekly-report show
+weekly-report edit overview
 
-# After all projects, review ops tasks
-internal-weekly-plan opstasks
+# Add meetings manually
+weekly-report meeting "Monday, April 20 @ 4:30 PM – The Key Standup" "Weekly alignment."
 
-# Finalize and upload to ClickUp
-internal-weekly-plan finalize
+# Publish to ClickUp Weekly Reports list, status "live"
+weekly-report finalize
 ```
 
 ## Requirements
 
-- **Jarvis API** — For team member data
-- **GitHub access** — For commit/PR history
-- **Fathom CLI** — For meeting transcripts
-- **ClickUp API** — For ticket creation
+- **GitHub access** — For merged PR history (`gh` CLI or API)
+- **ClickUp API** — For reading tasks and publishing the report
+- **Fathom** — Optional, for Overview call context
 
 ## File Structure
 
 ```
-internal-weekly-plan/
-├── SKILL.md              # Main skill instructions
+weekly-report/
+├── SKILL.md                      # Main skill instructions
 ├── config/
-│   └── projects.json     # Project configuration
+│   └── projects.json             # Projects + ClickUp Weekly Reports list
 └── references/
-    └── format-reference.md   # Markdown format template
+    ├── format-reference.md       # Markdown format template
+    └── example-report.md         # Full worked example (The Key)
 ```
 
 ## License
