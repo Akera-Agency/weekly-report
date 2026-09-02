@@ -1,117 +1,164 @@
-# Example Weekly Report — The Key (W03 APR 2026)
+# Example Weekly Report - Munitron (W2 AUG 2026)
 
-This is a real, worked example of the output format. It is adapted from a live
-edition in the ClickUp Weekly Reports list. Use it as the gold standard for tone,
-structure, and depth.
+This is a real, worked example of the output format, auto-drafted from live
+GitHub (merged PRs) and ClickUp (tasks by status) data. It is the gold standard
+for **value-first writing**: every bullet leads with the client outcome, not the
+internal ticket title. Use it as the reference for tone, structure, and depth.
 
 ---
 
-# **The Key – W03 APR 2026 Weekly Update**
+# **Munitron - W2 AUG 2026 Weekly Update**
 
 # **Overview**
 
-This week centered on high-impact scheduling and assignment reliability work,
-with a strong stabilization push across exam booking, gradebook integrity, and
-learning-flow continuity. The dominant execution pattern was clear: close
-production bugs fast while advancing larger scheduling UX and operations
-enhancements through code review and testing.
+This week centered on a major expansion of the platform's **voice (vishing)
+capabilities** and a significant build-out of **employee risk intelligence** in
+the tenant dashboard. The dominant execution pattern paired new feature surface
+area (voice campaign controls, dialect-aware AI generation, and employee-level
+risk views) with steady correctness work across campaigns, awareness, and
+threat-intelligence flows.
 
-Compared to W02, this cycle shifted from broad quality cleanup to more
-operationally consequential improvements for coordinators and instructors,
-especially around lab/interval scheduling controls, exportability, and safer
-attempt handling in SEB-linked flows.
+Compared to the prior cycle, the focus shifted from foundational campaign
+plumbing toward richer, customer-facing intelligence: security teams can now see
+how risk is distributed across their people, and voice-based simulations gained
+the realism controls needed for credible training scenarios.
 
 * * *
 
 # **Recent Delivery Highlights**
 
-### **Exam scheduling reliability and student booking safeguards**
+### **Voice (vishing) campaigns now sound real and localized**
 
-A concentrated release stream resolved multiple booking integrity issues and
-improved trust in scheduling outcomes.
+Voice-based phishing simulations are far more convincing and easier to tailor to
+your workforce.
 
-*   **What users can now do more reliably:**
-    *   Book and manage exam slots with fewer invalid-state edge cases (past-time
-        booking, completed-exam rebooking, missed-exam reset behavior)
-    *   View cleaner scheduling metadata in student-facing flows (including
-        rendering fixes for lab labels)
-    *   Operate daily scheduling flows with fewer support escalations
-*   **Why this matters:** Scheduling integrity is core to exam operations; these
-    fixes reduce operational noise and prevent invalid student states before they
-    become support incidents.
+*   **Match the accent to your people:** an optional dialect and accent selector
+    generates AI voices that sound local, so a simulated call to a Gulf-based
+    team lands as a Gulf-accented voice, not a generic one.
+*   **Pick the right language with confidence:** a complete language matrix with
+    voice previews lets you hear each option before you launch, so no campaign
+    goes out with the wrong tone.
+*   **Watch calls as they happen:** live call-status polling shows outbound call
+    progress in real time, so you can track a campaign as it runs instead of
+    waiting for a final report.
 
-*   [\[BUG: Exam scheduling - Student\] Missed exam incorrectly resets to "Book Now"](https://app.clickup.com/t/869cuxu59)
-*   [\[Admin\] Attempts: In-Progress Attempts Page Not Loading](https://app.clickup.com/t/869ct9ya6)
-*   [\[BUG: Manual Booking (Super Admin)\] Unable to scan exam for manually created bookings](https://app.clickup.com/t/869crmgnq)
+**Why this matters:** realistic, localized voice delivery is what makes vishing
+training believable. Employees only build real resilience when the simulation
+feels like a genuine call.
+
+*   [\[Tenant-Admin{Voice Scenarios}\] Optional AI voice dialect/accent selector](https://app.clickup.com/t/869egxt94)
+*   [\[Tenant-Admin{Voice Library}\] Language + gender UX for create/edit voices](https://app.clickup.com/t/869ehawbr)
+
+### **See exactly where your human risk lives**
+
+The dashboard now shows risk at the level of individual people and teams, not
+just an organization-wide score.
+
+*   **Spot your most vulnerable people:** an Employee Resilience Map shows how
+    each person is doing, so you know who needs attention first.
+*   **Understand how risk spreads:** a Risk Network view reveals risk
+    relationships across employees, helping you find weak clusters, not just
+    weak individuals.
+*   **Target training where it counts:** clearer program coverage with group
+    filters lets you confirm the right teams are actually enrolled.
+
+**Why this matters:** turning one big risk number into a per-person, per-team
+picture lets your security leads direct training and follow-up exactly where the
+exposure is greatest.
+
+*   [\[Tenant-Admin{Dashboard}\] Add employee Resilience Map](https://app.clickup.com/t/869edzr0v)
+*   [\[Tenant-Admin{Employees}\] Add Risk Network tab](https://app.clickup.com/t/869edzqz7)
 
 * * *
 
 # **Key Improvements**
 
-### **Gradebook and attempt-flow correctness**
+### **Campaign correctness and trustworthy reporting**
 
-*   [\[ENHANCEMENT\] Exam Scheduling - Lab & Interval Management Improvements](https://app.clickup.com/t/869cz025n)
-*   [\[BUG: Assignments + SEB\] Lockdown mode assignment status + error handling fix](https://app.clickup.com/t/869ctbaxz)
-*   [\[BUG: Gradebook\] Unable to set grade weight to 0 for GetTheKey](https://app.clickup.com/t/869cw0k33)
+*   **One place for every campaign:** phishing and voice simulations are now a
+    single unified campaign type, so you build and track both from one flow
+    instead of juggling two.
+    [\[Tenant-Admin{Campaigns}\] Merge phishing + vishing into one type](https://app.clickup.com/t/869egxt7g)
+*   **Consistent tactics across everything:** the same psychological-tactic
+    labels (urgency, authority, and the rest) now apply across phishing, vishing,
+    and training, so your reporting compares like for like.
+    [\[Tenant-Admin{Scenarios / Tactic Mastery}\] Unify psychological tactics](https://app.clickup.com/t/869ehcpm7)
+*   **Numbers you can trust:** exported campaign metrics now match the in-app
+    view exactly, and campaigns close themselves when their scheduled window
+    ends, so you get clean final numbers without manual cleanup.
 
-### **Operational controls for coordinators and instructors**
+### **A complete experience in every language**
 
-*   [\[ENHANCEMENT\] Schedule Slot - Export Booked Students (CSV or PDF)](https://app.clickup.com/t/869cwefwc)
-*   [\[ENHANCEMENT\] Exam Scheduling Calendar - Quick Add Interval via Plus Action](https://app.clickup.com/t/869cwdtk4)
-*   [\[UX\] Exam Scheduling - Assign Labs nested dropdown](https://app.clickup.com/t/869cvx4p4)
+*   **Full right-to-left and translation coverage:** awareness graphs, OSINT
+    pages, and partner-license flows now display correctly in every supported
+    language, giving non-English teams a native experience with no broken labels.
+    [\[Tenant-Admin{Threat Intelligence - Daily Digest}\] "Processing" digest handling](https://app.clickup.com/t/869egx4cj)
+*   **Reliable threat briefings:** the daily threat-intelligence digest no longer
+    gets stuck "processing," so your briefings arrive on schedule.
 
-### **Infrastructure and release hygiene**
+### **A faster, more stable platform**
 
-*   [Merged backend/infrastructure stream in GitHub (37 merged PRs this week)](https://github.com/Thekey-sa/moodle-monorepo/pulls?q=is%3Apr+is%3Amerged+merged%3A2026-04-13..2026-04-19)
-*   CI, migration, and scheduling-related backend updates continued to reduce
-    release friction and regression risk.
+*   **20 improvements shipped to production this week:** a steady stream of
+    behind-the-scenes reliability work, including hardened media handling and
+    smoother, more predictable interface behavior, keeps the platform fast and
+    dependable as your usage grows.
+    [View the merged work in GitHub](https://github.com/Akera-Agency/munitron/pulls?q=is%3Apr+is%3Amerged+merged%3A2026-08-11..2026-08-17)
 
 * * *
 
 # **In-Progress Features**
 
-### **Exam Scheduling – Calendar UX Redesign**
+### **Gamification System**
 
-*   **Status:** In Progress
-*   **Current focus:** improving calendar navigation and readability for
-    high-volume scheduling operations.
-*   **Current ticket:** [\[ENHANCEMENT\] Exam Scheduling – Calendar UX Redesign](https://app.clickup.com/t/869cwe74r)
-*   **Next milestone:** complete implementation pass and move into structured QA.
+*   **What you will get:** a reward-based layer that keeps employees coming back
+    to training, so awareness becomes a habit rather than a one-time event.
+*   **Status:** in prototyping; finalizing the design before implementation.
+*   [\[FEATURE\] Gamification System](https://app.clickup.com/t/869eapk22)
 
-### **Student Copilot and assignment-control enhancements**
+### **Mixed-Channel Phishing Scenarios**
 
-*   **Status:** In Progress
-*   **Current focus:** advancing Copilot and attempt-management experiences while
-    keeping core assignment flows stable.
-*   **Next milestone:** merge in-progress scope and prepare demo-ready branch.
+*   **What you will get:** simulations that combine email, voice, and other
+    channels in one coordinated attack, mirroring how real attackers actually
+    operate for far more realistic testing.
+*   **Status:** in development and testing.
+*   [\[FEATURE{Dev}\] Mixed-Channel Phishing Scenarios](https://app.clickup.com/t/869egxt6r)
+
+### **Spanish (ES) language support**
+
+*   **What you will get:** full Spanish localization across the platform, opening
+    it up to Spanish-speaking teams and regions.
+*   **Status:** in progress.
+*   [\[i18n\] Add Spanish (ES) locale support](https://app.clickup.com/t/869egxt8b)
 
 * * *
 
 # **Expected Deliveries This Week**
 
-### **Lab & interval scheduling management improvements**
+### **Predictive phishing-domain detection**
 
-*   **Expected state:** stronger validation, clearer naming, and smoother
-    scheduling control for coordinators.
+*   **What you will get:** the platform will flag lookalike and phishing domains
+    before attackers use them against your people, moving protection from
+    reactive to proactive.
+*   **Current status:** in testing.
+*   [\[FEATURE{Dev}\] Research predictive phishing domain detection](https://app.clickup.com/t/869egxt8x)
+
+### **One-click phishing reporting in Outlook and Gmail**
+
+*   **What you will get:** employees can report suspicious email straight from
+    their inbox with a native add-in, making it effortless for staff to flag real
+    threats and feed your reporting.
 *   **Current status:** in code review.
-*   **Primary ticket:** [\[ENHANCEMENT\] Lab & Interval Management Improvements](https://app.clickup.com/t/869cz025n)
+*   [\[FEATURE{Dev}\] Outlook + Gmail Phishing Report Add-ins](https://app.clickup.com/t/869egxt65)
 
-### **Scheduling exports and quick interval actions**
+### **Guided Google Workspace onboarding**
 
-*   **Expected state:** easier operational execution through export and faster
-    interval actioning.
-*   **Current status:** in code review.
+*   **What you will get:** a step-by-step setup after connecting Google Workspace,
+    so new tenants get up and running quickly with less support.
+*   **Current status:** in testing.
+*   [Add Google Workspace setup onboarding after connect](https://app.clickup.com/t/869em6u4c)
 
 * * *
 
 ## **Meetings This Week**
 
-### **Monday, April 20 @ 4:30 PM – The Key Standup & Progress Call**
-
-Weekly plan alignment, release review, and confirmation of priorities for
-scheduling and assignment reliability streams.
-
-### **Thursday, April 23 @ 4:30 PM – The Key Standup & Progress Call**
-
-Mid-week progress checkpoint, demo-readiness review, and blocker triage for
-in-review and in-testing items.
+*(Manual - to be filled in.)*

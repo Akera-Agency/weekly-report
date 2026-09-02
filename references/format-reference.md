@@ -15,6 +15,44 @@ See `example-report.md` for a full worked example.
 - Link ClickUp tickets inline: `[<ticket title>](https://app.clickup.com/t/<id>)`
 - Client-readable: describe outcomes and value; no internal names or task splits
 
+## Value-First Writing (the #1 rule)
+
+**The client does not care what changed. They care what they can now do.**
+
+Never list a raw ticket title as a bullet and stop. Every bullet must lead with
+the **client outcome in bold**, then explain why it matters to them. The ticket
+link is a demoted reference underneath, not the headline.
+
+**Bad (engineer-speak changelog):**
+```markdown
+*   [\[Tenant-Admin{Scenarios / Tactic Mastery}\] Unify psychological tactics](https://app.clickup.com/t/869ehcpm7)
+```
+
+**Good (value-first):**
+```markdown
+*   **Consistent tactics across everything:** the same psychological-tactic
+    labels now apply across phishing, vishing, and training, so your reporting
+    compares like for like.
+    [\[Tenant-Admin{Scenarios / Tactic Mastery}\] Unify psychological tactics](https://app.clickup.com/t/869ehcpm7)
+```
+
+Rules of thumb:
+
+- **Section headers state outcomes**, not internal feature names.
+  “See exactly where your human risk lives”, not “Employee risk intelligence”.
+- **Lead each bullet with a bold benefit phrase**, then the plain-language payoff.
+- **Answer “so what?” on every line.** If a bullet does not say what the client
+  gains, rewrite it.
+- **Use concrete examples** where they add clarity (e.g. “a call to a Gulf-based
+  team lands as a Gulf-accented voice”).
+- **In-Progress and Expected sections** open each item with a **What you will
+  get** line — the outcome framed as a promise.
+- **Reframe raw metrics as value.** “20 merged PRs” becomes “20 improvements
+  shipped to production this week” + why it matters.
+- **Translate jargon.** Strip ticket prefixes like `[Tenant-Admin{...}]` from the
+  reader-facing sentence; keep them only inside the reference link.
+- **No em dashes** (the linter enforces this). Use ‘ - ’ or reword.
+
 ## Template Structure
 
 ```markdown
@@ -30,14 +68,15 @@ See `example-report.md` for a full worked example.
 
 # **Recent Delivery Highlights**
 
-### **<Themed feature group>**
+### **<Outcome-focused header, e.g. "See exactly where your human risk lives">**
 
-<One-line framing of the release stream.>
+<One-line framing of what the client can now do.>
 
-*   **What users can now do more reliably:**
-    *   <capability 1>
-    *   <capability 2>
-*   **Why this matters:** <value statement>
+*   **<Bold benefit phrase>:** <plain-language payoff for the client, with a
+    concrete example where helpful>
+*   **<Bold benefit phrase>:** <plain-language payoff>
+
+**Why this matters:** <the bigger-picture value to the client>
 
 *   [<Ticket title>](https://app.clickup.com/t/<id>)
 *   [<Ticket title>](https://app.clickup.com/t/<id>)
@@ -46,10 +85,12 @@ See `example-report.md` for a full worked example.
 
 # **Key Improvements**
 
-### **<Theme, e.g. Gradebook and attempt-flow correctness>**
+### **<Outcome-focused theme, e.g. "Numbers you can trust">**
 
-*   [<Ticket title>](https://app.clickup.com/t/<id>)
-*   [<Ticket title>](https://app.clickup.com/t/<id>)
+*   **<Bold benefit phrase>:** <what the client gains, in plain language>
+    [<Ticket title>](https://app.clickup.com/t/<id>)
+*   **<Bold benefit phrase>:** <what the client gains>
+    [<Ticket title>](https://app.clickup.com/t/<id>)
 
 ### **Infrastructure and release hygiene**
 
@@ -62,20 +103,19 @@ See `example-report.md` for a full worked example.
 
 ### **<Feature name>**
 
-*   **Status:** In Progress
-*   **Current focus:** <what is being worked on>
-*   **Current ticket:** [<Ticket title>](https://app.clickup.com/t/<id>)
-*   **Next milestone:** <what completes this>
+*   **What you will get:** <the client outcome, framed as a promise>
+*   **Status:** <in progress / in prototyping / in testing> - <short focus note>
+*   [<Ticket title>](https://app.clickup.com/t/<id>)
 
 * * *
 
 # **Expected Deliveries This Week**
 
-### **<Theme>**
+### **<Outcome-focused theme>**
 
-*   **Expected state:** <what will be true when delivered>
+*   **What you will get:** <the client outcome, framed as a promise>
 *   **Current status:** in code review | in testing | mixed review/testing
-*   **Primary ticket:** [<Ticket title>](https://app.clickup.com/t/<id>)
+*   [<Ticket title>](https://app.clickup.com/t/<id>)
 
 * * *
 
@@ -91,10 +131,10 @@ See `example-report.md` for a full worked example.
 | Section | Source | Notes |
 |---------|--------|-------|
 | Overview | Week themes (+ Fathom) | 2-3 short paragraphs, compare to prior week |
-| Recent Delivery Highlights | `done` tickets + merged PRs | Group by theme, lead with user value |
-| Key Improvements | enhancements/fixes + PR count | Always end with "Infrastructure and release hygiene" |
-| In-Progress Features | `in progress` tickets | Status / focus / ticket / next milestone |
-| Expected Deliveries | `review` / `testing` tickets | State + current status + ticket |
+| Recent Delivery Highlights | `done` tickets + merged PRs | Outcome header; value-first bullets; "Why this matters" |
+| Key Improvements | enhancements/fixes + PR count | Value-first bullets; end with a "faster/more stable platform" group carrying the PR-count line |
+| In-Progress Features | `in progress` tickets | Open each with "What you will get" |
+| Expected Deliveries | `review` / `testing` tickets | Open each with "What you will get" + current status |
 | Meetings This Week | Manual | Optional; manual entry for now |
 
 ## ClickUp API Notes
